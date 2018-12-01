@@ -1,0 +1,6 @@
+framework module Pods_tigerspike {
+  umbrella header "Pods-tigerspike-umbrella.h"
+
+  export *
+  module * { export * }
+}
