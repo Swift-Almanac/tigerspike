@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
+        MyUser.shared.loadDefaults()
         moveToSplashScreen()
 
         //   Add Firebase Code
@@ -30,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //  Initialise Location Services (see Extension)
         
         initLocationServices()
-
+        
         return true
     }
 

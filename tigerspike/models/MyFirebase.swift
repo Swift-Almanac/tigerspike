@@ -63,9 +63,8 @@ class MyFirebase {
                 self.currentUser = user
                 self.userId = (user?.uid)!
                 
-                //  Load Defaults from Local Persistent Storage.
-                
-                MyUser.shared.loadDefaults()
+                self.loadNotes()
+                self.loadUser()
                 
                 //  Start Location Services
                 

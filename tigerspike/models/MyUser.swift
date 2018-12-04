@@ -17,12 +17,10 @@ class MyUser {
 
 
     func loadDefaults() {
-        name = UserDefaults.standard.string(forKey: "name") ?? ""
         username = UserDefaults.standard.string(forKey: "username") ?? ""
     }
     
     func saveDefaults() {
-        UserDefaults.standard.set(name, forKey: "name")
         UserDefaults.standard.set(username, forKey: "username")
     }
 

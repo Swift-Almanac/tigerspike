@@ -48,6 +48,7 @@ extension MapViewController: MKMapViewDelegate {
     
     func addNotes() {
         
+        print ("Add Notes")
         for note in MyNotes.shared.notes {
             mapView.addAnnotation(note)
         }
@@ -55,19 +56,10 @@ extension MapViewController: MKMapViewDelegate {
     
     func clearNotes() {
         
-        // Get a copy of the User Location (which is an annotation)
-        
-        let userLocation = mapView.userLocation
-        
         // Remove all of the Annotations
         
         mapView.removeAnnotations(mapView.annotations)
         
-        // Add the User Location back in
-        
-        if userLocation != nil {
-            mapView.addAnnotation(userLocation)
-        }
     }
     
     func refreshNotes() {

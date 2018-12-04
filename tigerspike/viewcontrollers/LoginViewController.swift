@@ -29,6 +29,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     let     forgotLbl = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
     let     loginAIV = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
     
+    var     theName: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -184,12 +186,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     }
                 } else {
                     
-                    //  Fix Add a Dialog to Obtain a Name
+                    self.obtainName(email: email, password: password)
                     
-                    self.createEmailUser(email: email, password: password)
-                    MyUser.shared.username = email
-                    MyUser.shared.saveDefaults()
-                    MyFirebase.shared.saveUser()
                 }
             } else {
                 MyUser.shared.username = email
@@ -199,14 +197,37 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         })
     }
     
-    func createEmailUser(email: String, password: String) {
+    func obtainName(email: String, password: String) {
+        
+        let alert = UIAlertController(title: "Name", message: "Enter your Name", preferredStyle: .alert)
+        
+        alert.addTextField {(textField) in
+            textField.placeholder = "Your Name"}
+        
+        let acceptAction = UIAlertAction(title: "OK", style: .default, handler: { [weak alert](_) in
+            guard let userField = alert?.textFields?[0] else {
+                return
+            }
+                self.createEmailUser(name: userField.text!, email: email, password: password)
+            
+            })
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .destructive))
+        alert.addAction(acceptAction)
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func createEmailUser(name: String, email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             if (error != nil) {
                 print(error?.localizedDescription ?? "")
             } else {
+                MyUser.shared.name = name
                 MyUser.shared.username = email
                 MyUser.shared.saveDefaults()
-                MyFirebase.shared.saveUser()
+                self.loginEmail()
             }
         })
     }

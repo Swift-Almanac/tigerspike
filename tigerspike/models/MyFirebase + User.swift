@@ -64,13 +64,7 @@ extension MyFirebase {
                 
                 MyNotes.shared.addNote(noteId: noteId, name: name, note: note, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon) )
             }
-            
-            let username = value["username"] as? String ?? ""
-            let name = value["name"] as? String ?? ""
-            
-            MyUser.shared.username = username
-            MyUser.shared.name = name
-        
+                    
             let vc = AppDelegate.topViewController()
             if vc is MapViewController {
                 let theVC = vc as! MapViewController
