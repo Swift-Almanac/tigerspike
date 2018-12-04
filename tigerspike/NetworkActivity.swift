@@ -8,6 +8,13 @@
 
 import UIKit
 
+//  NAIM sets the spinning wheel in the top left of the phone to indicate Network Activity.
+//  I have included a mechanism to pass closure functions which are queued and implemented
+//  once the network operation has completed.
+//  As there can be many async calls at one time, loadingCount keeps a track of how many
+//  calls are outstanding. Completion Functions are called when there are no more networking
+//  events outstanding.
+
 class NetworkActivityIndicatorManager: NSObject {
     
     static let shared = NetworkActivityIndicatorManager()
@@ -15,6 +22,8 @@ class NetworkActivityIndicatorManager: NSObject {
     private var loadingCount = 0
     
     private static var functions: [()->Void] = []
+    
+    
     
     func networkOperationStarted(closure: @escaping()->Void) {
         

@@ -8,6 +8,8 @@
 
 import UIKit
 
+// A nifty extension that returns the top View Controller.
+
 extension AppDelegate {
     
     class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {

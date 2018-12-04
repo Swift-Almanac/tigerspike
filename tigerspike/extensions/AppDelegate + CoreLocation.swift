@@ -78,6 +78,9 @@ extension AppDelegate : CLLocationManagerDelegate {
         
     }
     
+    //  A generic handler that will handle cases where the app is running and the client changes the Location Manager
+    // setting in the Settings app.
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
         let topWindow = AppDelegate.topViewController()

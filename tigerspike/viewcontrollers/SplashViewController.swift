@@ -19,6 +19,8 @@ class SplashViewController: UIViewController {
         activity.style = UIActivityIndicatorView.Style.whiteLarge
         activity.color = .black
         
+        //  Really should update the background color to match the icon for tigerspike.
+        
         view.backgroundColor = .black
         
         view.addSubview(screenIV)

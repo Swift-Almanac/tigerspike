@@ -11,6 +11,8 @@ import CoreLocation
 
 extension MyFirebase {
     
+    //  Get all of our User Specific Information (this is just our Name and Email, but could be more like APNS code, IP Address etc
+    
     func loadUser() {
         
         dbRef.child("user").child(userId).child("info").observeSingleEvent(of: .value, with:  { (snapshot) in
@@ -24,11 +26,12 @@ extension MyFirebase {
             
             MyUser.shared.username = username
             MyUser.shared.name = name
-            print ("\(name)")
             
         })
         
     }
+    
+    //  Save our Name and Email Address to the Info Child in Firebase
     
     func saveUser() {
         
@@ -39,6 +42,8 @@ extension MyFirebase {
         dbRef.child("user").child(userId).child("info").setValue(data)
                 
     }
+    
+    //  Load all of the Points and Notes from Firebase.
     
     func loadNotes() {
         
@@ -74,6 +79,8 @@ extension MyFirebase {
 
     }
     
+    //  Save a Single Note to the Firebase Database
+    
     func saveNote(name: String, note: String, coordinate: CLLocationCoordinate2D ) {
         
         let noteId = dbRef.child("notes").childByAutoId().key!
@@ -88,5 +95,7 @@ extension MyFirebase {
         dbRef.child("notes").childByAutoId().setValue(data)
         loadNotes()
     }
+    
+    //  We donr have a Delete function but we should implent one in the future.
     
 }

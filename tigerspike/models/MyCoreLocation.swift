@@ -10,6 +10,8 @@ import UIKit
 import CoreLocation
 import MapKit
 
+//      We keep a singleton for the current Location and Position to make things easier for us.
+
 class MyCoreLocation {
     
     static let shared = MyCoreLocation()

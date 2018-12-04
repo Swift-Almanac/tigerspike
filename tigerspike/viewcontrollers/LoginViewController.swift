@@ -19,7 +19,6 @@ import UIKit
 
 import UIKit
 import Firebase
-import Vision
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
@@ -33,6 +32,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // setup all the defaults for our Controls on the View Controller
         
         view.backgroundColor = .white
         
@@ -84,11 +85,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         forgotLbl.isHidden = MyUser.shared.username.isEmpty
         
+        //  Everything is in code, so need to setup the Constrains for the Controls.
+        
         setUpConstraints()
+        
+        // test login Button will ensure that the button is Active / InActive based on criteria
+        
         testLoginBtn()
     }
     
-    
+    //  The Reset Password Action/Target. Calls the Firebase resetPassword call and passes the Email Address supplied.
     
     @objc func resetPassword() {
         
@@ -124,12 +130,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    //  A Generic string tester that returns true if the string is a valid email address.
+    
     func testEmailAddress(email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailTest.evaluate(with: email)
     }
+    
+    //  testLoginBtn, activates the Login Button for selection if the criteria are met.
+    //  ie. There is a Valid Email Address for the username and the password is longer than 5 characters.
     
     func testLoginBtn() {
         
@@ -149,9 +160,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    //  Everytime the Username or Password field changes, we check to see if the Login Button
+    //  should be active or inactive and update it accordingly
+    
     @objc func textFieldDidChange(_ textField: UITextField) {
         testLoginBtn()
     }
+    
+    //  Handling of the Return Keyboard button as a way of moving between textFields of Clicking the Login Button if active.
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
@@ -166,6 +182,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
         return true
     }
+    
+    //  loginEmail calls the Firebase Authentication Call for Email Auth, passing an Email and Password.
+    //  it handles incorrect passwords and creation in the event that the Email address does not exist.
     
     @objc func loginEmail() {
         let email = usernameTxt.text!
@@ -199,6 +218,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         })
     }
     
+    //  Upon Creation of a New User we need to get the Name of the Client to assoicate it with the Email Address.
+    
     func obtainName(email: String, password: String) {
         
         let alert = UIAlertController(title: "Name", message: "Enter your Name", preferredStyle: .alert)
@@ -221,6 +242,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    //  Handle Creation of a New Account by Email/Password method.
+    
     func createEmailUser(name: String, email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             if (error != nil) {
@@ -235,6 +258,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         })
     }
     
+    //  Display an Error if there is a Bad Authentication Request
+    
     func badPassword() {
         let alert = UIAlertController(title: "Bad Password", message: "Please try again", preferredStyle: .alert)
         
@@ -242,6 +267,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         self.present(alert, animated: true, completion: nil)
     }
+    
+    //  Set the Contraints for all Controls in the View.
     
     func setUpConstraints() {
         

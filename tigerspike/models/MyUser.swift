@@ -8,6 +8,10 @@
 
 import UIKit
 
+//   Internal Singleton for our User Information (Name and Email Address).
+//   We also save the username to UserDefaults so that we can prepopulate the UserName on the
+//  login screen if needed.
+
 class MyUser {
     
     static let shared = MyUser()

@@ -24,6 +24,8 @@ extension MapViewController: MKMapViewDelegate {
         // So we will use CoreLocation didUpdateLocation
     }
     
+    //  isZooming Boolean, prevents redraws while a client is actively zooming the app.
+    
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         isZooming = isMapZooming()
     }
@@ -46,9 +48,12 @@ extension MapViewController: MKMapViewDelegate {
         return false
     }
     
+    //  AddNotes, adds the Annotations to the Map based on whether we are displaying all
+    //  of the Notes or just a Searched Sub Set.
+    
     func addNotes() {
         
-        if MyNotes.shared.filtered.isEmpty {        //  We Aren't Searching
+        if !isSearching {                            //  We Aren't Searching
         
             for note in MyNotes.shared.notes {      //  So Draw All Notes
                 mapView.addAnnotation(note)
@@ -60,6 +65,9 @@ extension MapViewController: MKMapViewDelegate {
         }
     }
     
+    //  Removes All Annotations from the Map, Called prior to addNotes above to ensure
+    //  we start with a clean slate.
+    
     func clearNotes() {
         
         // Remove all of the Annotations
@@ -68,10 +76,15 @@ extension MapViewController: MKMapViewDelegate {
         
     }
     
+    //  Refresh Notes is called as a result of either a Database Update (multiuser access) or
+    //  Changes to Search Criteria on the Map
+    
     func refreshNotes() {
         clearNotes()
         addNotes()
     }
+    
+    //  Using the Map Kit Protocol, we need to Draw our Annotations in response to a Map Update.
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         

@@ -63,6 +63,9 @@ class MyFirebase {
                 self.currentUser = user
                 self.userId = (user?.uid)!
                 
+                //  We can not access the Firebase Database (Auth is set to Must be Authorised)
+                //  So get our User Information and request a complete copy of the notes.
+                
                 self.loadNotes()
                 self.loadUser()
                 

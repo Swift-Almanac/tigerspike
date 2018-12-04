@@ -20,7 +20,10 @@ class MapViewController: UIViewController {
     
     var isSearching: Bool = false
     
+    var searchOn: Int = 0
+    
     let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: Int(UIScreen.main.bounds.width), height: kSearchBarHeight))
+    let segmented = UISegmentedControl(frame: CGRect(x: 0, y: 56, width: Int(UIScreen.main.bounds.width), height: 40))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +39,19 @@ class MapViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = addButton
         
+        segmented.backgroundColor = .white
+        segmented.insertSegment(withTitle: "All", at: 0, animated: false)
+        segmented.insertSegment(withTitle: "Name", at: 1, animated: false)
+        segmented.insertSegment(withTitle: "Note", at: 2, animated: false)
+        segmented.selectedSegmentIndex = 0
+        
+        segmented.addTarget(self, action: #selector(searchChanged), for: .valueChanged)
+        
+        searchBar.sizeToFit()
+        
         view.addSubview(mapView)
         view.addSubview(searchBar)
+        view.addSubview(segmented)
         
         mapView.delegate = self
         searchBar.delegate = self
@@ -66,15 +80,22 @@ class MapViewController: UIViewController {
         addNotes()
     }
     
+    //  Centres the Map on the current User Location.
+    
     func centerMap() {
         
         let coordRegion = MKCoordinateRegion(center: MyCoreLocation.shared.currentPosition, latitudinalMeters: mapDiameter, longitudinalMeters: mapDiameter)
         mapView.setRegion(coordRegion, animated: true)
     }
     
+    //  When we close the map, set the searchBar text to nil
+    
     override func viewDidDisappear(_ animated: Bool) {
         searchBar.text = ""
     }
+    
+    //   Called from the menu '+' sign. Add Item asks for a Note to associate with the location (Mandatory) then
+    //   Saves it to Firebase and causes a refresh of all the Annotations so the new note is drawn.
     
     @objc func addItem() {
         
@@ -107,9 +128,13 @@ class MapViewController: UIViewController {
 
     }
     
+    //  Called in relation to the Bar Button Item text LOGOUT.
+    
     @objc func logout() {
         MyFirebase.shared.logOut()
     }
+    
+    //  Set up Contraints for the Controls on the View.
     
     func setUpConstraints() {
         
