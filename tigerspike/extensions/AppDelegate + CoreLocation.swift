@@ -89,7 +89,6 @@ extension AppDelegate : CLLocationManagerDelegate {
             break
         case .authorizedWhenInUse:
             // If authorized when in use
-            // FIX User has selected In Use and we want Always On (so we can update play lists).
             startLocationServices()
             break
         case .authorizedAlways:

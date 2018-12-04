@@ -157,9 +157,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         textField.resignFirstResponder()
         
-        // FIX Implement Tabbing between Text Fields
         if loginBtn.isEnabled {
             loginEmail()
+        } else if textField === usernameTxt {
+            passwordTxt.becomeFirstResponder()
+        } else {
+            usernameTxt.becomeFirstResponder()
         }
         return true
     }
@@ -192,7 +195,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             } else {
                 MyUser.shared.username = email
                 MyUser.shared.saveDefaults()
-                MyFirebase.shared.saveUser()
             }
         })
     }
@@ -227,6 +229,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 MyUser.shared.name = name
                 MyUser.shared.username = email
                 MyUser.shared.saveDefaults()
+                MyFirebase.shared.saveUser()
                 self.loginEmail()
             }
         })

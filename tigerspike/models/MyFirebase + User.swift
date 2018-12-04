@@ -24,6 +24,7 @@ extension MyFirebase {
             
             MyUser.shared.username = username
             MyUser.shared.name = name
+            print ("\(name)")
             
         })
         
@@ -58,7 +59,6 @@ extension MyFirebase {
                 let lon = dictionary["lon"] as? Double ?? 0.0
                 
                 if noteId.isEmpty || name.isEmpty || note.isEmpty || lat == 0.0 || lon == 0.0 {
-                    print ("Bad Record")
                     return
                 }
                 

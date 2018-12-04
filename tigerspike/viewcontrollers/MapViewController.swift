@@ -67,15 +67,34 @@ class MapViewController: UIViewController {
     }
     
     @objc func addItem() {
-        print ("Add Item")
         
         // Add an Alert to capture Notes
         
-        let note = "I am Here"
+        let alert = UIAlertController(title: "Notes", message: "Add a note for this location", preferredStyle: .alert)
         
-        // Save to Firebase ... Save to Firebase will then LoadFirebase Database as we need the noteID calculated.
+        alert.addTextField {(textField) in
+            textField.placeholder = "Notes"}
         
-        MyFirebase.shared.saveNote(name: MyUser.shared.name, note: note, coordinate: MyCoreLocation.shared.currentPosition)
+        let acceptAction = UIAlertAction(title: "OK", style: .default, handler: { [weak alert](_) in
+            guard let userField = alert?.textFields?[0] else {
+                return
+            }
+            
+            guard let theNote = userField.text else {
+                return
+            }
+            
+            if !theNote.isEmpty {
+                MyFirebase.shared.saveNote(name: MyUser.shared.name, note: theNote, coordinate: MyCoreLocation.shared.currentPosition)
+
+            }
+        })
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .destructive))
+        alert.addAction(acceptAction)
+        
+        self.present(alert, animated: true, completion: nil)
+
     }
     
     @objc func logout() {

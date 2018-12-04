@@ -48,7 +48,6 @@ extension MapViewController: MKMapViewDelegate {
     
     func addNotes() {
         
-        print ("Add Notes")
         for note in MyNotes.shared.notes {
             mapView.addAnnotation(note)
         }
