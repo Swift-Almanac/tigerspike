@@ -48,8 +48,15 @@ extension MapViewController: MKMapViewDelegate {
     
     func addNotes() {
         
-        for note in MyNotes.shared.notes {
-            mapView.addAnnotation(note)
+        if MyNotes.shared.filtered.isEmpty {        //  We Aren't Searching
+        
+            for note in MyNotes.shared.notes {      //  So Draw All Notes
+                mapView.addAnnotation(note)
+            }
+        } else {
+            for note in MyNotes.shared.filtered {   //  We ARE Searching
+                mapView.addAnnotation(note)         //  So Draw only Filtered List
+            }
         }
     }
     

@@ -28,8 +28,10 @@ class MyNotes {
     static let shared = MyNotes()
     
     var notes: [NoteAnnotation] = []
+    var filtered: [NoteAnnotation] = []
     
     func clearNotes() {
+        filtered.removeAll()
         notes.removeAll()
     }
     
@@ -46,5 +48,12 @@ class MyNotes {
     
     func deleteNote(noteId: String) {
         notes = notes.filter {$0.noteId != noteId}
+    }
+    
+    func filterNotes(filter: String) {
+        
+        filtered.removeAll(keepingCapacity: false)
+        filtered = notes.filter( {$0.title?.range(of: filter) != nil})
+
     }
 }

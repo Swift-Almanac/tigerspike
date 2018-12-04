@@ -25,6 +25,7 @@
 		BEF40B6E21B6064800E75CDA /* NetworkActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF40B6D21B6064800E75CDA /* NetworkActivity.swift */; };
 		BEF40B7021B60B3800E75CDA /* MapViewController + MapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF40B6F21B60B3800E75CDA /* MapViewController + MapKit.swift */; };
 		BEF40B7221B60E9100E75CDA /* MyNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF40B7121B60E9100E75CDA /* MyNotes.swift */; };
+		BEF40B7421B62F3400E75CDA /* MapViewController + Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF40B7321B62F3400E75CDA /* MapViewController + Search.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,7 @@
 		BEF40B6D21B6064800E75CDA /* NetworkActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkActivity.swift; sourceTree = "<group>"; };
 		BEF40B6F21B60B3800E75CDA /* MapViewController + MapKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController + MapKit.swift"; sourceTree = "<group>"; };
 		BEF40B7121B60E9100E75CDA /* MyNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNotes.swift; sourceTree = "<group>"; };
+		BEF40B7321B62F3400E75CDA /* MapViewController + Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController + Search.swift"; sourceTree = "<group>"; };
 		D2E4D67353DB1CF3C8416457 /* Pods_tigerspike.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tigerspike.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -113,6 +115,7 @@
 				BE5515EF21B26F3700776AF5 /* AppDelegate + Ext.swift */,
 				BE5515F121B26F5100776AF5 /* AppDelegate + CoreLocation.swift */,
 				BEF40B6F21B60B3800E75CDA /* MapViewController + MapKit.swift */,
+				BEF40B7321B62F3400E75CDA /* MapViewController + Search.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 			files = (
 				BE5515E621B264EE00776AF5 /* LoginViewController.swift in Sources */,
 				BE5515F421B26FEF00776AF5 /* MyCoreLocation.swift in Sources */,
+				BEF40B7421B62F3400E75CDA /* MapViewController + Search.swift in Sources */,
 				BE5515CF21B263CA00776AF5 /* SplashViewController.swift in Sources */,
 				BE5515F621B27A6400776AF5 /* MyFirebase + User.swift in Sources */,
 				BE5515F021B26F3700776AF5 /* AppDelegate + Ext.swift in Sources */,

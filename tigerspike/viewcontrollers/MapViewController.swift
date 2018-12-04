@@ -9,12 +9,18 @@
 import UIKit
 import MapKit
 
+fileprivate let kSearchBarHeight: Int = 40
+
 class MapViewController: UIViewController {
 
     let mapView = MKMapView(frame: UIScreen.main.bounds)
     
     var mapDiameter: CLLocationDistance = 200.0 // in Meters.
     var isZooming: Bool = false
+    
+    var isSearching: Bool = false
+    
+    let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: Int(UIScreen.main.bounds.width), height: kSearchBarHeight))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +37,10 @@ class MapViewController: UIViewController {
         navigationItem.rightBarButtonItem = addButton
         
         view.addSubview(mapView)
+        view.addSubview(searchBar)
         
         mapView.delegate = self
+        searchBar.delegate = self
         
         mapView.mapType = .standard
         mapView.showsScale = true
@@ -55,15 +63,17 @@ class MapViewController: UIViewController {
         setUpConstraints()
         
         centerMap()
-        
         addNotes()
-
     }
     
     func centerMap() {
         
         let coordRegion = MKCoordinateRegion(center: MyCoreLocation.shared.currentPosition, latitudinalMeters: mapDiameter, longitudinalMeters: mapDiameter)
         mapView.setRegion(coordRegion, animated: true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        searchBar.text = ""
     }
     
     @objc func addItem() {
