@@ -23,7 +23,6 @@ import Vision
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
-    let     nameTxt = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
     let     usernameTxt = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
     let     passwordTxt = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 30 ))
     let     loginBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
@@ -34,14 +33,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
-        nameTxt.placeholder = "Username"
-        nameTxt.text = MyUser.shared.name
-        nameTxt.textColor = .black
-        nameTxt.textAlignment = .center
-        nameTxt.autocapitalizationType = .words
-        nameTxt.delegate = self
-        nameTxt.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         usernameTxt.placeholder = "Email Address"
         usernameTxt.text = MyUser.shared.username
@@ -81,17 +72,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         loginAIV.style = .whiteLarge
         loginAIV.color = .black
         
-        view.addSubview(nameTxt)
         view.addSubview(usernameTxt)
         view.addSubview(passwordTxt)
         view.addSubview(loginBtn)
         view.addSubview(forgotLbl)
         view.addSubview(loginAIV)
         
-        nameTxt.text = MyUser.shared.name
         usernameTxt.text = MyUser.shared.username
         
-        nameTxt.isHidden = !MyUser.shared.name.isEmpty
         forgotLbl.isHidden = MyUser.shared.username.isEmpty
         
         setUpConstraints()
@@ -145,10 +133,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         let email = usernameTxt.text!
         let password = passwordTxt.text!
-        let name = nameTxt.text!
         
-        if testEmailAddress(email: email) && password.count > 5 &&
-            (name.count > 0 || nameTxt.isHidden) {
+        if testEmailAddress(email: email) && password.count > 5 {
             loginBtn.isEnabled = true
             loginBtn.alpha = 1.0
             loginBtn.layer.backgroundColor = UIColor.green.cgColor
@@ -179,7 +165,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @objc func loginEmail() {
         let email = usernameTxt.text!
         let password = passwordTxt.text!
-        let name = nameTxt.text!
         
         NetworkActivityIndicatorManager.shared.networkOperationStarted(closure: doNothing)
         loginAIV.isHidden = false
@@ -198,14 +183,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         self.passwordTxt.text = ""
                     }
                 } else {
+                    
+                    //  Fix Add a Dialog to Obtain a Name
+                    
                     self.createEmailUser(email: email, password: password)
-                    MyUser.shared.name = name
                     MyUser.shared.username = email
                     MyUser.shared.saveDefaults()
                     MyFirebase.shared.saveUser()
                 }
             } else {
-                MyUser.shared.name = name
                 MyUser.shared.username = email
                 MyUser.shared.saveDefaults()
                 MyFirebase.shared.saveUser()
@@ -219,7 +205,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 print(error?.localizedDescription ?? "")
             } else {
                 MyUser.shared.username = email
-                MyUser.shared.name = self.nameTxt.text!
                 MyUser.shared.saveDefaults()
                 MyFirebase.shared.saveUser()
             }
@@ -236,16 +221,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func setUpConstraints() {
         
-        
-        let fnCentreY = NSLayoutConstraint(item: nameTxt, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: -40)
-        let fnCentreX = NSLayoutConstraint(item: nameTxt, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: 0)
-        let fnHeight = NSLayoutConstraint(item: nameTxt, attribute: .height, relatedBy: .equal, toItem: nil , attribute: .height, multiplier: 1.0, constant: 30)
-        let fnWidth = NSLayoutConstraint(item: nameTxt, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 200)
-        
-        nameTxt.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraints([fnCentreY, fnCentreX, fnHeight, fnWidth])
-        
-        let etCentreY = NSLayoutConstraint(item: usernameTxt, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 40)
+                
+        let etCentreY = NSLayoutConstraint(item: usernameTxt, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: -80)
         let etCentreX = NSLayoutConstraint(item: usernameTxt, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: 0)
         let etHeight = NSLayoutConstraint(item: usernameTxt, attribute: .height, relatedBy: .equal, toItem: nil , attribute: .height, multiplier: 1.0, constant: 30)
         let etWidth = NSLayoutConstraint(item: usernameTxt, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 200)
@@ -253,7 +230,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         usernameTxt.translatesAutoresizingMaskIntoConstraints = false
         view.addConstraints([etCentreY, etCentreX, etHeight, etWidth])
         
-        let ptCentreY = NSLayoutConstraint(item: passwordTxt, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 80)
+        let ptCentreY = NSLayoutConstraint(item: passwordTxt, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: -40)
         let ptCenterX = NSLayoutConstraint(item: passwordTxt, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: 0)
         let ptHeight = NSLayoutConstraint(item: passwordTxt, attribute: .height, relatedBy: .equal, toItem: nil , attribute: .height, multiplier: 1.0, constant: 30)
         let ptWidth = NSLayoutConstraint(item: passwordTxt, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 200)
@@ -261,7 +238,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTxt.translatesAutoresizingMaskIntoConstraints = false
         view.addConstraints([ptCentreY, ptCenterX, ptHeight, ptWidth])
         
-        let logCenterY = NSLayoutConstraint(item: loginBtn, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 160)
+        let logCenterY = NSLayoutConstraint(item: loginBtn, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 40)
         let logCenterX = NSLayoutConstraint(item: loginBtn, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: 0)
         let logHeight = NSLayoutConstraint(item: loginBtn, attribute: .height, relatedBy: .equal, toItem: nil , attribute: .height, multiplier: 1.0, constant: 30)
         let logWidth = NSLayoutConstraint(item: loginBtn, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 100)
@@ -269,7 +246,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         loginBtn.translatesAutoresizingMaskIntoConstraints = false
         view.addConstraints([logCenterY, logCenterX, logHeight, logWidth])
         
-        let rpCenterY = NSLayoutConstraint(item: forgotLbl, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 220)
+        let rpCenterY = NSLayoutConstraint(item: forgotLbl, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 120)
         let rpCenterX = NSLayoutConstraint(item: forgotLbl, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: 0)
         let rpHeight = NSLayoutConstraint(item: forgotLbl, attribute: .height, relatedBy: .equal, toItem: nil , attribute: .height, multiplier: 1.0, constant: 30)
         let rpWidth = NSLayoutConstraint(item: forgotLbl, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 200)
@@ -277,7 +254,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         forgotLbl.translatesAutoresizingMaskIntoConstraints = false
         view.addConstraints([rpCenterY, rpCenterX, rpHeight, rpWidth])
         
-        let aivCenterY = NSLayoutConstraint(item: loginAIV, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: -80)
+        let aivCenterY = NSLayoutConstraint(item: loginAIV, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 0)
         let aivCenterX = NSLayoutConstraint(item: loginAIV, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: 0)
         let aivHeight = NSLayoutConstraint(item: loginAIV, attribute: .height, relatedBy: .equal, toItem: nil , attribute: .height, multiplier: 1.0, constant: 100)
         let aivWidth = NSLayoutConstraint(item: loginAIV, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 100)

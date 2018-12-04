@@ -11,11 +11,13 @@ import MapKit
 
 class NoteAnnotation: NSObject, MKAnnotation {
     
+    var noteId: String = ""
     var title: String?
     var subtitle: String?
     var coordinate: CLLocationCoordinate2D
     
-    init(title: String, subtitle: String, coordinate: CLLocationCoordinate2D) {
+    init(noteId: String, title: String, subtitle: String, coordinate: CLLocationCoordinate2D) {
+        self.noteId = noteId
         self.title = title
         self.subtitle = subtitle
         self.coordinate = coordinate
@@ -25,7 +27,7 @@ class NoteAnnotation: NSObject, MKAnnotation {
 class MyNotes {
     static let shared = MyNotes()
     
-    var notes: [Note] = []
+    var notes: [NoteAnnotation] = []
     
     func clearNotes() {
         notes.removeAll()
@@ -37,7 +39,7 @@ class MyNotes {
         
         let empty = notes.filter({$0.noteId == noteId})
         if empty.count == 0 {
-            let theNote = Note(noteId: noteId, name: name, note: note, coordinate: coordinate)
+            let theNote = NoteAnnotation(noteId: noteId, title: name, subtitle: note, coordinate: coordinate)
             notes.append(theNote)
         }
     }
@@ -45,12 +47,4 @@ class MyNotes {
     func deleteNote(noteId: String) {
         notes = notes.filter {$0.noteId != noteId}
     }
-}
-
-struct  Note {
-    
-    var noteId: String
-    var name: String
-    var note: String
-    var coordinate: CLLocationCoordinate2D
 }

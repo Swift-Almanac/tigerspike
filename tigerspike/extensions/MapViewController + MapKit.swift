@@ -49,7 +49,6 @@ extension MapViewController: MKMapViewDelegate {
     func addNotes() {
         
         for note in MyNotes.shared.notes {
-            let note = NoteAnnotation(title: MyUser.shared.name, subtitle: note.note, coordinate: note.coordinate)
             mapView.addAnnotation(note)
         }
     }
@@ -84,23 +83,19 @@ extension MapViewController: MKMapViewDelegate {
             return nil
         }
         
-        if annotation.isKind(of: NoteAnnotation.self) {
-            let identifier = "Note Annotation"
-//            let note = annotation as! NoteAnnotation
+        let identifier = "Note Annotation"
+        
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as MKAnnotationView?
+        
+        if annotationView == nil {
             
-            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as MKAnnotationView?
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView?.canShowCallout = true
             
-            if annotationView == nil {
-                
-                annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                annotationView?.canShowCallout = true
-                
-            } else {
-                annotationView?.annotation = annotation
-            }
-            return annotationView
+        } else {
+            annotationView?.annotation = annotation
         }
-    return nil
+        return annotationView
     }
     
 }
